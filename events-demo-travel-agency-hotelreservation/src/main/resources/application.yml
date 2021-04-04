@@ -1,0 +1,28 @@
+spring:
+  config:
+    use-legacy-processing: true
+  profiles:
+    active: local
+server:
+    port: 8081
+---
+spring:
+  profiles: local
+  kafka:
+    template:
+      default-topic: events
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        acks: all
+        retries: 10
+    consumer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: travelagency-events-listener-group
+    admin:
+      properties:
+        bootstrap.servers: localhost:9092
